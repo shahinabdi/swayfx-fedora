@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 36,
+  "height": 28,
   "spacing": 4,
   "modules-left": ["custom/brand", "sway/workspaces"],
   "modules-center": ["sway/window"],

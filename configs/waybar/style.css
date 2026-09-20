@@ -1,4 +1,4 @@
-* { font-family: "JetBrainsMono Nerd Font Mono", monospace; font-size: 12px; }
+* { font-family: "JetBrainsMono Nerd Font Mono", monospace; font-size: 10px; }
 window#waybar {
   margin: 6px 8px 0 8px;
   background: #0b111a;
@@ -20,7 +20,7 @@ window#waybar {
 #workspaces button:hover { background: #273344; color: #d6deea; }
 #window { color: #d6deea; padding: 0 8px; }
 #cpu, #memory, #network, #pulseaudio, #battery, #clock { padding: 0 10px; }
-#network, #pulseaudio, #battery { font-size: 12px; }
+#network, #pulseaudio, #battery { font-size: 10px; }
 #clock { color: #a9c9f5; font-weight: bold; padding-right: 12px; }
 #battery.warning { color: #e6a567; }
 #battery.critical { color: #e57373; }

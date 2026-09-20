@@ -87,7 +87,7 @@ exec --no-startup-id mako
 exec --no-startup-id swayidle -w timeout 300 '~/.config/swayfx/scripts/lock.sh' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep '~/.config/swayfx/scripts/lock.sh'
 
 bindsym $mod+Return exec $terminal
-bindsym $mod+d exec $launcher
+bindsym $mod+d exec "pkill -x wofi; $launcher"
 bindsym $mod+q kill
 bindsym $mod+Shift+c exec "swaymsg reload; pkill -x waybar; waybar"
 bindsym $mod+Shift+e exec ~/.config/swayfx/scripts/power-menu.sh
