@@ -6,7 +6,7 @@ window#waybar {
   border: 1px solid #273344;
   border-radius: 8px;
 }
-#custom-brand { color: #69a7ff; font-size: 15px; padding: 0 10px 0 12px; }
+#custom-brand { color: #69a7ff; font-size: 48px; padding: 0 12px 0 14px; }
 #workspaces { margin: 0 4px; }
 #workspaces button { color: #7d90ab; padding: 0 8px; border-radius: 4px; }
 #workspaces button.focused { color: #0b111a; background: #69a7ff; }

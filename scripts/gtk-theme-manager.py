@@ -60,6 +60,7 @@ def write_settings(version: str, theme: str) -> None:
     if not settings.has_section("Settings"):
         settings.add_section("Settings")
     settings["Settings"]["gtk-theme-name"] = theme
+    settings["Settings"]["gtk-application-prefer-dark-theme"] = str("dark" in theme.lower())
     with path.open("w", encoding="utf-8") as handle:
         settings.write(handle)
 
@@ -68,12 +69,16 @@ def apply_theme(theme: str) -> None:
     for version in ("3", "4"):
         write_settings(version, theme)
     if shutil.which("gsettings"):
-        subprocess.run(
-            ["gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", theme],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
+        for key, value in (
+            ("gtk-theme", theme),
+            ("color-scheme", "prefer-dark" if "dark" in theme.lower() else "default"),
+        ):
+            subprocess.run(
+                ["gsettings", "set", "org.gnome.desktop.interface", key, value],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
 
 
 def apply_dolphin_scheme(scheme: str) -> None:
