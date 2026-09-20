@@ -80,7 +80,7 @@ layer_effects "notifications" {
 }
 
 exec_always --no-startup-id ~/.config/swayfx/scripts/wallpaper.sh
-exec_always --no-startup-id waybar
+exec --no-startup-id waybar
 exec --no-startup-id mako
 exec --no-startup-id swayidle -w timeout 300 '~/.config/swayfx/scripts/lock.sh' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep '~/.config/swayfx/scripts/lock.sh'
 
@@ -88,10 +88,10 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+d exec $launcher
 bindsym $mod+q kill
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec "swaymsg exit"
+bindsym $mod+Shift+e exec ~/.config/swayfx/scripts/power-menu.sh
 bindsym $mod+f fullscreen toggle
 bindsym $mod+space floating toggle
-bindsym $mod+l exec ~/.config/swayfx/scripts/lock.sh
+bindsym $mod+Ctrl+l exec ~/.config/swayfx/scripts/lock.sh
 bindsym Print exec ~/.config/swayfx/scripts/screenshot.sh full
 bindsym Shift+Print exec ~/.config/swayfx/scripts/screenshot.sh area
 
@@ -113,24 +113,25 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
+# Keycodes keep the physical number row consistent across keyboard layouts.
+bindcode $mod+10 workspace $ws1
+bindcode $mod+11 workspace $ws2
+bindcode $mod+12 workspace $ws3
+bindcode $mod+13 workspace $ws4
+bindcode $mod+14 workspace $ws5
+bindcode $mod+15 workspace $ws6
+bindcode $mod+16 workspace $ws7
+bindcode $mod+17 workspace $ws8
+bindcode $mod+18 workspace $ws9
+bindcode $mod+Shift+10 move container to workspace $ws1
+bindcode $mod+Shift+11 move container to workspace $ws2
+bindcode $mod+Shift+12 move container to workspace $ws3
+bindcode $mod+Shift+13 move container to workspace $ws4
+bindcode $mod+Shift+14 move container to workspace $ws5
+bindcode $mod+Shift+15 move container to workspace $ws6
+bindcode $mod+Shift+16 move container to workspace $ws7
+bindcode $mod+Shift+17 move container to workspace $ws8
+bindcode $mod+Shift+18 move container to workspace $ws9
 
 bindsym $mod+Shift+q exec ~/.config/swayfx/scripts/power-menu.sh
 include /etc/sway/config.d/*
