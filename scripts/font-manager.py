@@ -15,12 +15,24 @@ HOME = Path.home()
 CONFIG = HOME / ".config"
 FONT_PATTERN = re.compile(r"^[^,]+")
 TARGETS = {
-    "Alacritty": [(CONFIG / "alacritty/alacritty.toml", r'^(normal = \{ family = )"[^"]+"', r'\1"{font}"')],
-    "Waybar": [(CONFIG / "waybar/style.css", r'^(\* \{ font-family: )"[^"]+"', r'\1"{font}"')],
-    "Wofi": [(CONFIG / "wofi/style.css", r'^(window .* font-family: )"[^"]+"', r'\1"{font}"')],
-    "Mako": [(CONFIG / "mako/config", r'^(font=)[^\n]+', r'\1{font} 12')],
-    "Swaylock": [(CONFIG / "swaylock/config", r'^(font=)[^\n]+', r'\1{font}')],
-    "SwayFX": [(CONFIG / "swayfx/config", r'^(font pango:).+$', r'\1{font} 10')],
+    "Alacritty": [
+        (CONFIG / "alacritty/alacritty.toml", r'^(normal = \{ family = )"[^"]+"', r'\1"{font}"'),
+        (CONFIG / "alacritty/alacritty.toml", r'^(size = )[^\n]+', r'\1{size}.0'),
+    ],
+    "Waybar": [
+        (CONFIG / "waybar/style.css", r'^(\* \{ font-family: )"[^"]+"', r'\1"{font}"'),
+        (CONFIG / "waybar/style.css", r'^(\* \{ .*font-size: )[^p]+(px;)', r'\1{size}\2'),
+    ],
+    "Wofi": [
+        (CONFIG / "wofi/style.css", r'^(window .* font-family: )"[^"]+"', r'\1"{font}"'),
+        (CONFIG / "wofi/style.css", r'^(window .* font-size: )[^p]+(px;)', r'\1{size}\2'),
+    ],
+    "Mako": [(CONFIG / "mako/config", r'^(font=)[^\n]+', r'\1{font} {size}')],
+    "Swaylock": [
+        (CONFIG / "swaylock/config", r'^(font=)[^\n]+', r'\1{font}'),
+        (CONFIG / "swaylock/config", r'^(font-size=)[^\n]+', r'\1{size}'),
+    ],
+    "SwayFX": [(CONFIG / "swayfx/config", r'^(font pango:).+$', r'\1{font} {size}')],
 }
 
 
@@ -65,9 +77,9 @@ def replace(path: Path, pattern: str, replacement: str) -> bool:
     return True
 
 
-def apply_font(font: str, target: str) -> int:
+def apply_font(font: str, size: str, target: str) -> int:
     changes = [
-        (path, pattern, replacement.format(font=font))
+        (path, pattern, replacement.format(font=font, size=size))
         for path, pattern, replacement in (
             item for name, items in TARGETS.items() if target == "All" or name == target for item in items
         )
@@ -101,9 +113,12 @@ def main() -> int:
     selected = choose(fonts, "Font")
     if selected is None:
         return 0
-    if apply_font(selected, target):
+    size = choose([str(value) for value in range(8, 25)], "Size")
+    if size is None:
+        return 0
+    if apply_font(selected, size, target):
         reload_desktop()
-        notify(f"Applied {selected} to {target}")
+        notify(f"Applied {selected} {size}px to {target}")
     return 0
 
 

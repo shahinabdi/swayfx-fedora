@@ -68,9 +68,23 @@ class ConfigManager:
                 for script in scripts_target.iterdir():
                     script.chmod(script.stat().st_mode | 0o111)
             changed.append(scripts_target)
+        self._install_wallpapers()
         if changed and not self.dry_run:
             self.backup.record(changed)
         return changed
+
+    def _install_wallpapers(self) -> None:
+        source = self.repository / "assets" / "wallpapers"
+        if not source.exists() or self.dry_run:
+            return
+        target = self.home / ".config" / "swayfx" / "wallpapers"
+        target.mkdir(parents=True, exist_ok=True)
+        extensions = {".png", ".jpg", ".jpeg", ".webp"}
+        for image in source.iterdir():
+            if image.is_file() and image.suffix.lower() in extensions:
+                destination = target / image.name
+                if not destination.exists():
+                    shutil.copy2(image, destination)
 
     def _apply_keyboard_layout(self, swayfx_target: Path, xkb_layout: str, xkb_variant: str) -> None:
         config_file = swayfx_target / "config"

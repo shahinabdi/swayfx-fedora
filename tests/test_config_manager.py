@@ -25,3 +25,22 @@ class ConfigManagerTests(unittest.TestCase):
             self.assertTrue((home / ".config" / "swayfx" / "scripts" / "lock.sh").exists())
             self.assertTrue(changed)
             self.assertEqual(manager.install(ConfigAction.KEEP), [])
+
+    def test_bundled_wallpapers_are_merged_without_overwriting_user_files(self) -> None:
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as directory:
+            tmp_path = Path(directory)
+            repository = tmp_path / "repo"
+            (repository / "assets" / "wallpapers").mkdir(parents=True)
+            (repository / "assets" / "wallpapers" / "bundled.jpg").write_bytes(b"bundled")
+            home = tmp_path / "home"
+            manager = ConfigManager(repository, home=home)
+
+            manager.install(ConfigAction.BACKUP_REPLACE)
+            wallpaper_dir = home / ".config" / "swayfx" / "wallpapers"
+            self.assertEqual((wallpaper_dir / "bundled.jpg").read_bytes(), b"bundled")
+
+            (wallpaper_dir / "bundled.jpg").write_bytes(b"user")
+            manager.install(ConfigAction.BACKUP_REPLACE)
+            self.assertEqual((wallpaper_dir / "bundled.jpg").read_bytes(), b"user")
