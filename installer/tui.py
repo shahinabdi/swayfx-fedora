@@ -11,7 +11,7 @@ import curses
 from .config_manager import ConfigManager
 from .doctor import Doctor
 from .installer import Installer
-from .models import ConfigAction, InstallMode, PackageSpec
+from .models import ConfigAction, InstallMode, KEYBOARD_LAYOUTS, PackageSpec
 
 TITLE = "Fedora SwayFX"
 SUBTITLE = "Modern Wayland desktop setup"
@@ -287,6 +287,10 @@ class App:
         if packages is None:
             return
         self.install_flow(packages)
+        if mode == InstallMode.FULL:
+            # Full Setup must also apply configuration; package installation alone
+            # used to leave the desktop unconfigured.
+            self.configure_screen()
 
     def checkbox_screen(self, title: str, catalog: list[PackageSpec], selected: dict[str, bool]) -> list[PackageSpec] | None:
         filter_text = ""
@@ -484,10 +488,14 @@ class App:
             if choice is None or choice == 3:
                 return
             action = [ConfigAction.BACKUP_REPLACE, ConfigAction.SKIP, ConfigAction.KEEP][choice]
+        layout_choice = self.list_dialog("Keyboard layout", ["AZERTY (fr)", "QWERTY (us)"])
+        if layout_choice is None:
+            return
+        xkb_layout, xkb_variant = KEYBOARD_LAYOUTS["qwerty" if layout_choice == 1 else "azerty"]
         if not self.confirm_dialog("Confirm", ["Install configuration files now?"]):
             return
         try:
-            changed = self.installer.config.install(action)
+            changed = self.installer.config.install(action, xkb_layout=xkb_layout, xkb_variant=xkb_variant)
         except RuntimeError as error:
             self.message_screen("Configuration cancelled", [(str(error), self.color(C_ERROR))])
             return

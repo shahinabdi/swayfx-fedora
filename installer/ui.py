@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from .models import ConfigAction, InstallMode, PackageSpec
+from .models import KEYBOARD_LAYOUTS, ConfigAction, InstallMode, PackageSpec
 
 
 def ask(prompt: str, default: str | None = None) -> str:
@@ -31,6 +31,18 @@ def choose_configs() -> ConfigAction:
     print("\nExisting configuration found:")
     print("  1. Backup and replace\n  2. Merge / skip\n  3. Keep existing\n  4. Cancel")
     return [ConfigAction.BACKUP_REPLACE, ConfigAction.SKIP, ConfigAction.KEEP, ConfigAction.CANCEL][int(ask("Choose", "1")) - 1]
+
+
+def choose_keyboard_layout() -> tuple[str, str]:
+    print("\nKeyboard layout:\n  1. AZERTY (fr) [default]\n  2. QWERTY (us)\n  3. Custom (enter XKB layout/variant)")
+    choice = ask("Choose", "1")
+    if choice == "2":
+        return KEYBOARD_LAYOUTS["qwerty"]
+    if choice == "3":
+        layout = ask("XKB layout code", "fr")
+        variant = ask("XKB variant (blank for none)", "")
+        return layout, variant
+    return KEYBOARD_LAYOUTS["azerty"]
 
 
 def choose_packages(packages: Sequence[PackageSpec]) -> list[PackageSpec]:

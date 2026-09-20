@@ -21,6 +21,16 @@ class ConfigAction(str, Enum):
     CANCEL = "cancel"
 
 
+# Default keyboard layout applied to the sway config; user is prompted to
+# override with QWERTY (us) or a custom layout/variant during install.
+DEFAULT_XKB_LAYOUT = "fr"
+DEFAULT_XKB_VARIANT = ""
+KEYBOARD_LAYOUTS: dict[str, tuple[str, str]] = {
+    "azerty": ("fr", ""),
+    "qwerty": ("us", ""),
+}
+
+
 @dataclass(frozen=True)
 class PackageSpec:
     name: str

@@ -1,6 +1,6 @@
 # Solid Dark / Subtle FX — matches the SwayFX/Waybar/Wofi/Mako palette.
 color=0b111a
-font=JetBrains Mono
+font=JetBrainsMono Nerd Font Mono
 font-size=18
 indicator-caps-lock
 

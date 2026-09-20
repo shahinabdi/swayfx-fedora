@@ -9,7 +9,7 @@ from .config_manager import ConfigManager
 from .detector import Detector
 from .models import ConfigAction, InstallMode, InstallPlan, PackageSpec
 from .package_manager import PackageManager, ProgressCallback
-from .ui import choose_configs, choose_packages, confirm
+from .ui import choose_configs, choose_keyboard_layout, choose_packages, confirm
 
 LOGGER = logging.getLogger(__name__)
 
@@ -46,7 +46,13 @@ class Installer:
         lines.extend(f"{name}: {'installed' if state else 'not installed'}" for name, state in found.packages.items())
         return "\n".join(lines)
 
-    def run(self, mode: InstallMode, selected: list[PackageSpec] | None = None, action: ConfigAction | None = None) -> bool:
+    def run(
+        self,
+        mode: InstallMode,
+        selected: list[PackageSpec] | None = None,
+        action: ConfigAction | None = None,
+        keyboard: tuple[str, str] | None = None,
+    ) -> bool:
         print(self.summary())
         if mode == InstallMode.UNINSTALL:
             if not self.dry_run and not confirm("Remove project-managed configuration and optionally packages?", False):
@@ -63,16 +69,29 @@ class Installer:
             plan = self.packages.plan(packages)
             if plan.unavailable:
                 print("Unavailable packages: " + ", ".join(item.name for item in plan.unavailable))
+            if not plan.to_install:
+                print("All selected packages are already installed; skipping package install.")
             failed = self.packages.install_report(plan.to_install, verbose=self.verbose)
             if failed:
                 print("Failed to install: " + ", ".join(item.name for item in failed))
                 packages_ok = False
+            elif plan.to_install:
+                print("Installed: " + ", ".join(item.name for item in plan.to_install))
         # Always apply configuration, even if some packages failed, so the desktop
         # isn't left half-configured; doctor/summary will still flag missing packages.
         if mode in (InstallMode.FULL, InstallMode.CONFIGURE, InstallMode.CUSTOM, InstallMode.REPAIR):
             if action is None and any(self.config.home.joinpath(".config", name).exists() for name in ConfigManager.CONFIG_MAP):
                 action = choose_configs()
-            self.config.install(action or ConfigAction.BACKUP_REPLACE)
+            if keyboard is None:
+                keyboard = choose_keyboard_layout()
+            xkb_layout, xkb_variant = keyboard
+            changed = self.config.install(action or ConfigAction.BACKUP_REPLACE, xkb_layout=xkb_layout, xkb_variant=xkb_variant)
+            if changed:
+                print("Configuration installed:")
+                for path in changed:
+                    print(f"  {path}")
+            else:
+                print("Configuration unchanged (skipped or kept existing).")
         return packages_ok
 
     def install_packages(self, packages: list[PackageSpec], on_progress: ProgressCallback | None = None) -> tuple[InstallPlan, bool]:

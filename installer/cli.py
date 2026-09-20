@@ -5,7 +5,7 @@ import logging
 import sys
 
 from .installer import Installer
-from .models import ConfigAction, InstallMode
+from .models import KEYBOARD_LAYOUTS, ConfigAction, InstallMode
 from .doctor import Doctor
 from .ui import choose_mode
 
@@ -16,6 +16,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--dry-run", action="store_true", help="show changes without writing or installing")
     result.add_argument("--yes", action="store_true", help="replace existing configuration without prompting")
     result.add_argument("--verbose", action="store_true", help="show raw package manager output for debugging")
+    result.add_argument("--keyboard", choices=["azerty", "qwerty"], help="keyboard layout to apply (default: azerty; prompted interactively if omitted)")
     return result
 
 
@@ -33,7 +34,13 @@ def run(argv: list[str] | None = None) -> int:
             return run_tui(installer)
         mode = InstallMode(args.command) if args.command else choose_mode()
         action = ConfigAction.BACKUP_REPLACE if args.yes else None
-        return 0 if installer.run(mode, action=action) else 1
+        if args.keyboard:
+            keyboard = KEYBOARD_LAYOUTS[args.keyboard]
+        elif args.yes:
+            keyboard = KEYBOARD_LAYOUTS["azerty"]
+        else:
+            keyboard = None
+        return 0 if installer.run(mode, action=action, keyboard=keyboard) else 1
     except KeyboardInterrupt:
         print("\nCancelled.", file=sys.stderr)
         return 130
