@@ -16,23 +16,23 @@ CONFIG = HOME / ".config"
 FONT_PATTERN = re.compile(r"^[^,]+")
 TARGETS = {
     "Alacritty": [
-        (CONFIG / "alacritty/alacritty.toml", r'^(normal = \{ family = )"[^"]+"', r'\1"{font}"'),
-        (CONFIG / "alacritty/alacritty.toml", r'^(size = )[^\n]+', r'\1{size}.0'),
+        (CONFIG / "alacritty/alacritty.toml", r'^(normal = \{ family = )"[^"]+"', r'\g<1>"{font}"'),
+        (CONFIG / "alacritty/alacritty.toml", r'^(size = )[^\n]+', r'\g<1>{size}.0'),
     ],
     "Waybar": [
-        (CONFIG / "waybar/style.css", r'^(\* \{ font-family: )"[^"]+"', r'\1"{font}"'),
-        (CONFIG / "waybar/style.css", r'^(\* \{ .*font-size: )[^p]+(px;)', r'\1{size}\2'),
+        (CONFIG / "waybar/style.css", r'^(\* \{ font-family: )"[^"]+"', r'\g<1>"{font}"'),
+        (CONFIG / "waybar/style.css", r'^(\* \{ .*font-size: )[^p]+(px;)', r'\g<1>{size}\g<2>'),
     ],
     "Wofi": [
-        (CONFIG / "wofi/style.css", r'^(window .* font-family: )"[^"]+"', r'\1"{font}"'),
-        (CONFIG / "wofi/style.css", r'^(window .* font-size: )[^p]+(px;)', r'\1{size}\2'),
+        (CONFIG / "wofi/style.css", r'^(window .* font-family: )"[^"]+"', r'\g<1>"{font}"'),
+        (CONFIG / "wofi/style.css", r'^(window .* font-size: )[^p]+(px;)', r'\g<1>{size}\g<2>'),
     ],
-    "Mako": [(CONFIG / "mako/config", r'^(font=)[^\n]+', r'\1{font} {size}')],
+    "Mako": [(CONFIG / "mako/config", r'^(font=)[^\n]+', r'\g<1>{font} {size}')],
     "Swaylock": [
-        (CONFIG / "swaylock/config", r'^(font=)[^\n]+', r'\1{font}'),
-        (CONFIG / "swaylock/config", r'^(font-size=)[^\n]+', r'\1{size}'),
+        (CONFIG / "swaylock/config", r'^(font=)[^\n]+', r'\g<1>{font}'),
+        (CONFIG / "swaylock/config", r'^(font-size=)[^\n]+', r'\g<1>{size}'),
     ],
-    "SwayFX": [(CONFIG / "swayfx/config", r'^(font pango:).+$', r'\1{font} {size}')],
+    "SwayFX": [(CONFIG / "swayfx/config", r'^(font pango:).+$', r'\g<1>{font} {size}')],
 }
 
 

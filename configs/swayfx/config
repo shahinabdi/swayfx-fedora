@@ -95,6 +95,8 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+space floating toggle
 bindsym $mod+w exec ~/.config/swayfx/scripts/wallpaper-manager.sh
 bindsym $mod+Shift+f exec ~/.config/swayfx/scripts/font-manager.py
+bindsym $mod+Shift+t exec ~/.config/swayfx/scripts/gtk-theme-manager.py
+bindsym $mod+Shift+F1 exec ~/.config/swayfx/scripts/keybind-helper.sh
 bindsym $mod+Ctrl+l exec ~/.config/swayfx/scripts/lock.sh
 bindsym Print exec ~/.config/swayfx/scripts/screenshot.sh full
 bindsym Shift+Print exec ~/.config/swayfx/scripts/screenshot.sh area
