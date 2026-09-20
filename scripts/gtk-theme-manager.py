@@ -60,7 +60,9 @@ def write_settings(version: str, theme: str) -> None:
     if not settings.has_section("Settings"):
         settings.add_section("Settings")
     settings["Settings"]["gtk-theme-name"] = theme
-    settings["Settings"]["gtk-application-prefer-dark-theme"] = str("dark" in theme.lower())
+    settings["Settings"]["gtk-application-prefer-dark-theme"] = (
+        "true" if "dark" in theme.lower() else "false"
+    )
     with path.open("w", encoding="utf-8") as handle:
         settings.write(handle)
 

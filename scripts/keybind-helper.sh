@@ -11,7 +11,21 @@ Super+Shift+F1 Keybind helper
 Super+Q        Close focused window
 Super+F        Toggle fullscreen
 Super+Space    Toggle floating window
+Super+E        Toggle horizontal/vertical split
+Super+S        Stacking layout
+Super+T        Tabbed layout
+Super+Shift+S  Horizontal split
+Super+Shift+V  Vertical split
+Super+R        Resize mode (H/J/K/L or arrows, Enter/Esc exits)
+Super+Shift+M  Move mode (H/J/K/L or arrows, Enter/Esc exits)
+Super+Shift+Return  Move window to scratchpad
+Super+Shift+Space   Show scratchpad
+Super+Ctrl+Space    Toggle focus mode
+Super+Shift+Tab    Focus parent container
+Super+Tab      Focus child container
 Super+Ctrl+L   Lock screen
+Super+Ctrl+A   Choose AZERTY/QWERTY layout
+Super+Ctrl+U   Choose AZERTY/QWERTY layout
 Super+Shift+E  Power menu
 Super+Shift+C  Reload Sway configuration
 Print          Full screenshot

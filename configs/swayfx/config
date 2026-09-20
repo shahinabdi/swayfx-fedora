@@ -89,14 +89,29 @@ exec --no-startup-id swayidle -w timeout 300 '~/.config/swayfx/scripts/lock.sh' 
 bindsym $mod+Return exec $terminal
 bindsym $mod+d exec $launcher
 bindsym $mod+q kill
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c exec "swaymsg reload; pkill -x waybar; waybar"
 bindsym $mod+Shift+e exec ~/.config/swayfx/scripts/power-menu.sh
 bindsym $mod+f fullscreen toggle
 bindsym $mod+space floating toggle
+bindsym $mod+e layout toggle split
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+Shift+s layout splith
+bindsym $mod+Shift+v layout splitv
+bindsym $mod+Ctrl+space focus mode_toggle
+bindsym $mod+Shift+Return move scratchpad
+bindsym $mod+Shift+space scratchpad show
+bindsym $mod+minus move scratchpad
+bindsym $mod+equal scratchpad show
+bindsym $mod+Shift+minus sticky toggle
+bindsym $mod+Shift+Tab focus parent
+bindsym $mod+Tab focus child
 bindsym $mod+w exec ~/.config/swayfx/scripts/wallpaper-manager.sh
 bindsym $mod+Shift+f exec ~/.config/swayfx/scripts/font-manager.py
 bindsym $mod+Shift+t exec ~/.config/swayfx/scripts/gtk-theme-manager.py
 bindsym $mod+Shift+F1 exec ~/.config/swayfx/scripts/keybind-helper.sh
+bindsym $mod+Ctrl+a exec ~/.config/swayfx/scripts/keyboard-layout-manager.sh
+bindsym $mod+Ctrl+u exec ~/.config/swayfx/scripts/keyboard-layout-manager.sh
 bindsym $mod+Ctrl+l exec ~/.config/swayfx/scripts/lock.sh
 bindsym Print exec ~/.config/swayfx/scripts/screenshot.sh full
 bindsym Shift+Print exec ~/.config/swayfx/scripts/screenshot.sh area
@@ -109,6 +124,35 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+
+bindsym $mod+r mode "resize"
+bindsym $mod+Shift+m mode "move"
+
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "move" {
+    bindsym h move left
+    bindsym j move down
+    bindsym k move up
+    bindsym l move right
+    bindsym Left move left
+    bindsym Down move down
+    bindsym Up move up
+    bindsym Right move right
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 
 set $ws1 "1"
 set $ws2 "2"
