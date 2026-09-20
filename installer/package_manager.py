@@ -58,7 +58,19 @@ class PackageManager:
         verbose: bool = False,
         on_progress: ProgressCallback | None = None,
     ) -> bool:
-        success = True
+        return not self.install_report(packages, retry=retry, verbose=verbose, on_progress=on_progress)
+
+    def install_report(
+        self,
+        packages: Iterable[PackageSpec],
+        *,
+        retry: bool = True,
+        verbose: bool = False,
+        on_progress: ProgressCallback | None = None,
+    ) -> list[PackageSpec]:
+        """Install packages, returning the list of specs that failed (empty on full success)."""
+
+        failed: list[PackageSpec] = []
         for item in packages:
             if on_progress:
                 on_progress(item, "start")
@@ -68,12 +80,14 @@ class PackageManager:
                 LOGGER.warning("Package installation failed; retrying once")
                 result = self._run(command, stream=verbose)
             ok = result.returncode == 0
-            if not ok and not verbose:
-                LOGGER.debug("%s failed: %s", item.name, (result.stderr or result.stdout or "").strip())
-            success = success and ok
+            if not ok:
+                if not verbose:
+                    LOGGER.warning("%s failed: %s", item.name, (result.stderr or result.stdout or "").strip())
+                failed.append(item)
             if on_progress:
                 on_progress(item, "done" if ok else "failed")
-        return success
+        return failed
+
 
     def remove(self, packages: Iterable[PackageSpec]) -> bool:
         names = [item.name for item in packages if item.manager == "dnf"]

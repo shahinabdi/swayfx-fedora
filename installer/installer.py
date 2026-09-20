@@ -58,17 +58,22 @@ class Installer:
             packages = choose_packages(self.package_catalog())
         elif mode == InstallMode.APPS and selected is None:
             packages = choose_packages([item for item in self.package_catalog() if item.category == "Applications"])
+        packages_ok = True
         if mode in (InstallMode.FULL, InstallMode.APPS, InstallMode.CUSTOM, InstallMode.REPAIR):
             plan = self.packages.plan(packages)
             if plan.unavailable:
                 print("Unavailable packages: " + ", ".join(item.name for item in plan.unavailable))
-            if not self.packages.install(plan.to_install, verbose=self.verbose):
-                return False
+            failed = self.packages.install_report(plan.to_install, verbose=self.verbose)
+            if failed:
+                print("Failed to install: " + ", ".join(item.name for item in failed))
+                packages_ok = False
+        # Always apply configuration, even if some packages failed, so the desktop
+        # isn't left half-configured; doctor/summary will still flag missing packages.
         if mode in (InstallMode.FULL, InstallMode.CONFIGURE, InstallMode.CUSTOM, InstallMode.REPAIR):
             if action is None and any(self.config.home.joinpath(".config", name).exists() for name in ConfigManager.CONFIG_MAP):
                 action = choose_configs()
             self.config.install(action or ConfigAction.BACKUP_REPLACE)
-        return True
+        return packages_ok
 
     def install_packages(self, packages: list[PackageSpec], on_progress: ProgressCallback | None = None) -> tuple[InstallPlan, bool]:
         """Plan and install a package selection, reporting per-package progress for UI consumers."""
