@@ -6,8 +6,11 @@ Fedora-native installation and configuration for a focused SwayFX desktop: solid
 
 ## Features
 
+- Full-screen, keyboard-driven terminal UI (dark theme, blue accents) that works over SSH and in a plain terminal
 - Fedora package detection through `rpm` and `dnf`, with optional Flatpak support
-- Interactive Full Setup, Configure Only, Applications Only, Custom Installation, Repair / Reinstall, and Uninstall / Restore modes
+- Full Setup, Configure Desktop, Applications, Custom Installation, Doctor, and Uninstall / Restore modes
+- Custom Installation checkbox screen with per-category selection, select all/none/defaults, and a live search filter
+- Live install progress with a percentage bar and per-package status icons; raw `dnf` output is hidden unless `--verbose` is passed
 - Idempotent package planning that skips installed packages and reports unavailable packages
 - Timestamped backups under `~/.local/state/fedora-swayfx/backups/`
 - Manifest-based uninstall that removes only project-managed files
@@ -23,12 +26,12 @@ Clone the repository, then run as your normal user:
 python3 install.py
 ```
 
-The installer uses `sudo` only for package operations. Run `python3 install.py --dry-run` to inspect package and configuration decisions without changes. Installed configuration is selected through prompts when an existing directory is found; the default replacement path creates a backup first.
+Running `fedora-swayfx` (or `python3 install.py`) with no arguments in an interactive terminal launches the full-screen setup UI. The installer uses `sudo` only for package operations. Run with `--dry-run` to inspect package and configuration decisions without changes, and `--verbose` to see raw `dnf`/`flatpak` output for debugging. Installed configuration is selected through prompts when an existing directory is found; the default replacement path creates a backup first.
 
-For command-line workflows:
+For non-interactive / scripted workflows, pass a command directly to skip the UI:
 
 ```bash
-fedora-swayfx install
+fedora-swayfx full
 fedora-swayfx configure
 fedora-swayfx apps
 fedora-swayfx doctor
@@ -39,7 +42,7 @@ Install the package locally with `pip install .` to make the `fedora-swayfx` com
 
 ## Custom applications
 
-Custom Installation presents the package catalog grouped as Core SwayFX, Desktop utilities, Terminal, and Applications. Use `all`, `none`, `default`, or comma-separated item numbers. Alacritty is the default terminal; Foot and Kitty remain available as alternatives. Package availability is checked before installation because Fedora repositories and Flatpak remotes vary.
+The Custom Installation screen presents the package catalog grouped as Core, Terminal, Utilities, and Applications. Use Space to toggle a package, Space on a category header to toggle the whole category, `A`/`N`/`D` for select all / none / defaults, and `/` to search/filter by name. Alacritty is the default terminal; Foot and Kitty remain available as alternatives. Package availability is checked before installation because Fedora repositories and Flatpak remotes vary.
 
 ## Configuration
 

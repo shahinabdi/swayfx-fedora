@@ -7,17 +7,18 @@ from pathlib import Path
 from .backup import BackupManager
 from .config_manager import ConfigManager
 from .detector import Detector
-from .models import ConfigAction, InstallMode, PackageSpec
-from .package_manager import PackageManager
+from .models import ConfigAction, InstallMode, InstallPlan, PackageSpec
+from .package_manager import PackageManager, ProgressCallback
 from .ui import choose_configs, choose_packages, confirm
 
 LOGGER = logging.getLogger(__name__)
 
 
 class Installer:
-    def __init__(self, repository: Path | None = None, dry_run: bool = False) -> None:
+    def __init__(self, repository: Path | None = None, dry_run: bool = False, verbose: bool = False) -> None:
         self.repository = repository or Path(__file__).resolve().parent.parent
         self.dry_run = dry_run
+        self.verbose = verbose
         self.detector = Detector()
         self.packages = PackageManager(dry_run=dry_run)
         self.config = ConfigManager(self.repository, backup=BackupManager(), dry_run=dry_run)
@@ -61,10 +62,17 @@ class Installer:
             plan = self.packages.plan(packages)
             if plan.unavailable:
                 print("Unavailable packages: " + ", ".join(item.name for item in plan.unavailable))
-            if not self.packages.install(plan.to_install):
+            if not self.packages.install(plan.to_install, verbose=self.verbose):
                 return False
         if mode in (InstallMode.FULL, InstallMode.CONFIGURE, InstallMode.CUSTOM, InstallMode.REPAIR):
             if action is None and any(self.config.home.joinpath(".config", name).exists() for name in ConfigManager.CONFIG_MAP):
                 action = choose_configs()
             self.config.install(action or ConfigAction.BACKUP_REPLACE)
         return True
+
+    def install_packages(self, packages: list[PackageSpec], on_progress: ProgressCallback | None = None) -> tuple[InstallPlan, bool]:
+        """Plan and install a package selection, reporting per-package progress for UI consumers."""
+
+        plan = self.packages.plan(packages)
+        success = self.packages.install(plan.to_install, verbose=self.verbose, on_progress=on_progress)
+        return plan, success

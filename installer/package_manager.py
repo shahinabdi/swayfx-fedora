@@ -3,12 +3,14 @@ from __future__ import annotations
 import logging
 import shutil
 import subprocess
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from pathlib import Path
 
 from .models import InstallPlan, PackageSpec
 
 LOGGER = logging.getLogger(__name__)
+
+ProgressCallback = Callable[[PackageSpec, str], None]
 
 
 class PackageManager:
@@ -18,10 +20,12 @@ class PackageManager:
         self.dry_run = dry_run
         self.runner = runner
 
-    def _run(self, command: list[str], *, check: bool = False, read_only: bool = False) -> subprocess.CompletedProcess[str]:
-        LOGGER.info("%s%s", "DRY RUN: " if self.dry_run else "", " ".join(command))
+    def _run(self, command: list[str], *, check: bool = False, read_only: bool = False, stream: bool = False) -> subprocess.CompletedProcess[str]:
+        LOGGER.debug("%s%s", "DRY RUN: " if self.dry_run else "", " ".join(command))
         if self.dry_run and not read_only:
             return subprocess.CompletedProcess(command, 0, "", "")
+        if stream:
+            return self.runner(command, text=True, check=check)
         return self.runner(command, text=True, capture_output=True, check=check)
 
     def installed(self, package: str, manager: str = "dnf") -> bool:
@@ -46,20 +50,29 @@ class PackageManager:
         )
         return InstallPlan(requested, installed, unavailable)
 
-    def install(self, packages: Iterable[PackageSpec], *, retry: bool = True) -> bool:
-        grouped: dict[str, list[str]] = {}
-        for item in packages:
-            grouped.setdefault(item.manager, []).append(item.name)
+    def install(
+        self,
+        packages: Iterable[PackageSpec],
+        *,
+        retry: bool = True,
+        verbose: bool = False,
+        on_progress: ProgressCallback | None = None,
+    ) -> bool:
         success = True
-        for manager, names in grouped.items():
-            if not names:
-                continue
-            command = ["sudo", "dnf", "install", "-y", *names] if manager == "dnf" else ["flatpak", "install", "-y", "flathub", *names]
-            result = self._run(command)
+        for item in packages:
+            if on_progress:
+                on_progress(item, "start")
+            command = ["sudo", "dnf", "install", "-y", item.name] if item.manager == "dnf" else ["flatpak", "install", "-y", "flathub", item.name]
+            result = self._run(command, stream=verbose)
             if result.returncode != 0 and retry and not self.dry_run:
                 LOGGER.warning("Package installation failed; retrying once")
-                result = self._run(command)
-            success = success and result.returncode == 0
+                result = self._run(command, stream=verbose)
+            ok = result.returncode == 0
+            if not ok and not verbose:
+                LOGGER.debug("%s failed: %s", item.name, (result.stderr or result.stdout or "").strip())
+            success = success and ok
+            if on_progress:
+                on_progress(item, "done" if ok else "failed")
         return success
 
     def remove(self, packages: Iterable[PackageSpec]) -> bool:

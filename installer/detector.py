@@ -26,6 +26,9 @@ class Detector:
         if not release.exists():
             return False, "unknown"
         text = release.read_text(encoding="utf-8", errors="replace").strip()
+        for prefix in ("Fedora Linux release ", "Fedora release "):
+            if text.startswith(prefix):
+                return True, text.removeprefix(prefix).split(" (")[0]
         return True, text.removeprefix("Fedora Linux release ").split(" (")[0]
 
     def detect(self, package_names: list[str] | None = None) -> Detection:
