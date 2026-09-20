@@ -32,6 +32,8 @@ set $border_width 2
 set $gap_inner 8
 set $gap_outer 8
 
+include ~/.config/swayfx/outputs.conf
+
 # --- FX: corner radius, shadow, blur, animation, dim -------------------------
 set $corner_radius 8
 set $shadow_blur_radius 12
