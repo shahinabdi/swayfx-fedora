@@ -3,7 +3,7 @@ set -euo pipefail
 
 choice=$(printf 'Lock\nLogout\nSuspend\nReboot\nShutdown' | wofi --dmenu --prompt 'Power')
 case "$choice" in
-  Lock) swaylock -f -c 0b111a ;;
+  Lock) swaylock -f ;;
   Logout) swaymsg exit ;;
   Suspend) systemctl suspend ;;
   Reboot) systemctl reboot ;;

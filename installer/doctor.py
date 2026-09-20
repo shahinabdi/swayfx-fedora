@@ -19,7 +19,7 @@ class Doctor:
             ("KDE coexistence", "PASS", "detected and untouched" if detection.kde else "not installed"),
             ("SDDM", "PASS" if detection.sddm else "WARN", "installed" if detection.sddm else "not installed"),
         ]
-        for name in ("swayfx", "waybar", "wofi", "mako", "swaylock", "swayidle"):
+        for name in ("swayfx", "waybar", "wofi", "mako", "swaylock", "swayidle", "swaybg"):
             present = detection.packages.get(name, self.detector.package_installed(name))
             rows.append((name, "PASS" if present else "FAIL", "installed" if present else "missing"))
         for command in ("pipewire", "nmcli", "grim", "slurp", "swaymsg"):

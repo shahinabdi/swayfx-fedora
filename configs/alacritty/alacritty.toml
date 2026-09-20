@@ -1,6 +1,6 @@
 [window]
 padding = { x = 12, y = 10 }
-decorations = "full"
+decorations = "none"
 opacity = 1.0
 
 [font]
@@ -18,3 +18,23 @@ text = "#0b111a"
 [colors.selection]
 background = "#273344"
 text = "#d6deea"
+
+[colors.normal]
+black = "#0b111a"
+red = "#e57373"
+green = "#8bc98f"
+yellow = "#e6a567"
+blue = "#69a7ff"
+magenta = "#a685e2"
+cyan = "#6fc7d6"
+white = "#d6deea"
+
+[colors.bright]
+black = "#7d90ab"
+red = "#f2908f"
+green = "#a3d9a5"
+yellow = "#f0bd85"
+blue = "#9cc4ff"
+magenta = "#c1a3ee"
+cyan = "#95dbe6"
+white = "#ffffff"

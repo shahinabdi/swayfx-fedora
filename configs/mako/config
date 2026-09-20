@@ -1,12 +1,17 @@
 font=JetBrains Mono 10
-background-color=#0b111aee
+anchor=top-right
+layer=overlay
+background-color=#0b111a
 text-color=#d6deea
 border-color=#69a7ff
 border-size=1
-border-radius=6
+border-radius=8
 padding=10
 margin=8
 default-timeout=5000
 max-visible=4
-width=360
+width=340
 outer-margin=8
+
+[urgency=critical]
+border-color=#e6a567

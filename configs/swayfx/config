@@ -1,43 +1,82 @@
-# Solid Dark / Subtle FX. Adjust this block to personalize the session.
+# Solid Dark / Subtle FX — minimal, professional, developer-focused.
+# Every visual knob for the whole desktop lives in this one block. Change a
+# value here and reload ($mod+Shift+c); Waybar/Wofi/Mako/Swaylock/Alacritty
+# intentionally ship with matching (not identical) hardcoded copies of this
+# same palette, since they can't read Sway variables directly.
 set $mod Mod4
 set $terminal alacritty
 set $launcher wofi --show drun --allow-images
 set $config ~/.config/swayfx/config
-set $accent #69a7ff
-set $background #0b111a
-set $focused $accent
-set $unfocused #273344
+
+# --- Palette: Solid Dark / Subtle FX ---------------------------------------
+set $bg          #0b111a  ; very dark navy / near black
+set $bg_surface  #121a26  ; slightly raised surface (unused by sway itself)
+set $accent      #69a7ff  ; primary accent - medium blue
+set $secondary   #273344  ; muted blue / gray
+set $text        #d6deea  ; soft white
+set $muted_text  #7d90ab  ; gray-blue
+set $urgent      #e6a567
+
+set $focused   $accent
+set $unfocused $secondary
+
+# --- Layout: gaps & borders --------------------------------------------------
 set $border_width 2
-set $gaps 6
-set $corner_radius 7
-set $animation_duration 180
+set $gap_inner 8
+set $gap_outer 8
+
+# --- FX: corner radius, shadow, blur, animation, dim -------------------------
+set $corner_radius 8
+set $shadow_blur_radius 12
+set $shadow_color #00000066
+set $blur_radius 3
+set $blur_passes 2
+set $dim_inactive 0.12
+set $animation_duration_ms 150
 
 font pango:JetBrains Mono 10
 floating_modifier $mod normal
 default_border pixel $border_width
 default_floating_border pixel $border_width
-gaps inner $gaps
-gaps outer $gaps
+gaps inner $gap_inner
+gaps outer $gap_outer
 smart_gaps on
 smart_borders on
 
-client.focused $focused $background $focused $focused $focused
-client.unfocused $unfocused $background $unfocused $unfocused $unfocused
-client.urgent #e6a567 $background #e6a567 #e6a567
+client.focused $focused $bg $focused $focused $focused
+client.unfocused $unfocused $bg $unfocused $unfocused $unfocused
+client.urgent $urgent $bg $urgent $urgent $urgent
 
 corner_radius $corner_radius
-shadow enable
-shadow_blur_radius 12
-shadow_color #00000066
-# Opt in to blur when desired; opaque surfaces are the default.
+shadows enable
+shadow_blur_radius $shadow_blur_radius
+shadow_color $shadow_color
+# Windows stay opaque by default; blur is opt-in and kept minimal on purpose.
 blur disable
-blur_radius 3
-blur_passes 2
-default_dim_inactive 0.06
+blur_radius $blur_radius
+blur_passes $blur_passes
+default_dim_inactive $dim_inactive
+animation_duration_ms $animation_duration_ms
 
+# Subtle FX on the panels/launcher/notifications too, kept light so nothing
+# reads as "glassy". Panels stay opaque; this only rounds/softens their edges.
+layer_effects "waybar" {
+    corner_radius $corner_radius
+    shadows enable
+}
+layer_effects "wofi" {
+    corner_radius $corner_radius
+    shadows enable
+}
+layer_effects "notifications" {
+    corner_radius $corner_radius
+    shadows enable
+}
+
+exec_always --no-startup-id ~/.config/swayfx/scripts/wallpaper.sh
 exec_always --no-startup-id waybar
 exec --no-startup-id mako
-exec --no-startup-id swayidle -w timeout 300 'swaylock -f -c 0b111a' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep 'swaylock -f -c 0b111a'
+exec --no-startup-id swayidle -w timeout 300 '~/.config/swayfx/scripts/lock.sh' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep '~/.config/swayfx/scripts/lock.sh'
 
 bindsym $mod+Return exec $terminal
 bindsym $mod+d exec $launcher

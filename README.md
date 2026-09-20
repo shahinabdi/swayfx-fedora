@@ -46,7 +46,7 @@ The Custom Installation screen presents the package catalog grouped as Core, Ter
 
 ## Configuration
 
-The visual controls live near the top of `configs/swayfx/config`: `corner_radius`, `shadow`, `blur`, `blur_radius`, `gaps`, `border_width`, and the focused/unfocused colors. Put personal wallpapers in `~/.config/swayfx/wallpapers/`; the installer never downloads a random image.
+The visual controls live near the top of `configs/swayfx/config` in one variable block: palette (`$bg`, `$accent`, `$secondary`, `$text`, `$muted_text`), layout (`$gap_inner`, `$gap_outer`, `$border_width`), and FX (`$corner_radius`, `$shadow_blur_radius`, `$blur_radius`, `$blur_passes`, `$dim_inactive`, `$animation_duration_ms`). Waybar, Wofi, Mako, Swaylock, and Alacritty ship with matching colors of their own since they can't read Sway variables. Put personal wallpapers in `~/.config/swayfx/wallpapers/`; `scripts/wallpaper.sh` picks the first image found there and falls back to a solid background color, and the installer never downloads a random image.
 
 Default bindings include `$mod+Return` terminal, `$mod+d` launcher, `$mod+q` close, `$mod+Shift+c` reload, `$mod+Shift+e` exit, `$mod+1..9` workspaces, `$mod+Shift+1..9` move, `$mod+f` fullscreen, `$mod+space` floating, `Print` screenshot, `Shift+Print` area screenshot, and `$mod+l` lock.
 

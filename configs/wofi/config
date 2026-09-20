@@ -1,0 +1,16 @@
+# Solid Dark / Subtle FX — centered, compact, keyboard-first launcher.
+width=480
+height=320
+location=center
+show=drun
+allow_images=true
+allow_markup=false
+insensitive=true
+prompt=Launch
+columns=1
+no_actions=true
+hide_scroll=true
+dynamic_lines=true
+key_expand=Tab
+key_forward=Down
+key_backward=Up

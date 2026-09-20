@@ -33,7 +33,7 @@ class Detector:
 
     def detect(self, package_names: list[str] | None = None) -> Detection:
         fedora, version = self._fedora_release()
-        names = package_names or ["sway", "swayfx", "waybar", "wofi", "mako", "swaylock", "swayidle"]
+        names = package_names or ["sway", "swayfx", "waybar", "wofi", "mako", "swaylock", "swayidle", "swaybg"]
         packages = {name: self.package_installed(name) for name in names}
         config_names = ["swayfx", "sway", "waybar", "wofi", "mako", "alacritty"]
         config_paths = {name: (self.home / ".config" / name).exists() for name in config_names}

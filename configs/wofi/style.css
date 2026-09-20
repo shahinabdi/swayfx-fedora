@@ -1,5 +1,9 @@
-window { margin: 0; border: 1px solid #69a7ff; background-color: #0b111a; font-family: "JetBrains Mono"; font-size: 13px; }
-#input { margin: 8px; padding: 8px; border: 1px solid #273344; color: #d6deea; background-color: #121c2a; }
+window { margin: 0; border: 1px solid #69a7ff; border-radius: 8px; background-color: #0b111a; font-family: "JetBrains Mono"; font-size: 13px; }
+#input { margin: 8px; padding: 8px; border: 1px solid #273344; border-radius: 6px; color: #d6deea; background-color: #121a26; outline: none; }
+#input image { color: #7d90ab; }
 #outer-box { margin: 4px; padding: 4px; }
-#entry { padding: 8px; color: #d6deea; }
+#scroll { margin: 0 4px; }
+#entry { padding: 8px; border-radius: 6px; color: #d6deea; }
 #entry:selected { background-color: #69a7ff; color: #0b111a; }
+#entry image { margin-right: 8px; }
+#text { color: inherit; }

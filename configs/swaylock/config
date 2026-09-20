@@ -1,0 +1,32 @@
+# Solid Dark / Subtle FX — matches the SwayFX/Waybar/Wofi/Mako palette.
+color=0b111a
+font=JetBrains Mono
+font-size=18
+indicator-caps-lock
+
+inside-color=0b111a
+inside-clear-color=273344
+inside-ver-color=69a7ff
+inside-wrong-color=e6a567
+
+ring-color=273344
+ring-clear-color=69a7ff
+ring-ver-color=69a7ff
+ring-wrong-color=e6a567
+
+line-color=0b111a
+line-clear-color=0b111a
+line-ver-color=0b111a
+line-wrong-color=0b111a
+
+text-color=d6deea
+text-clear-color=d6deea
+text-ver-color=0b111a
+text-wrong-color=0b111a
+
+separator-color=273344
+key-hl-color=69a7ff
+bs-hl-color=e6a567
+
+ignore-empty-password
+show-failed-attempts

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-swaylock -f -c 0b111a
+# Colors come from ~/.config/swaylock/config to match the rest of the desktop.
+swaylock -f

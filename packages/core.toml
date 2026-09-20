@@ -29,6 +29,11 @@ label = "Sway screen locker"
 category = "Core SwayFX"
 
 [[packages]]
+name = "swaybg"
+label = "Wallpaper renderer"
+category = "Core SwayFX"
+
+[[packages]]
 name = "brightnessctl"
 label = "Brightness control"
 category = "Desktop utilities"
