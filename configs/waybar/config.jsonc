@@ -1,0 +1,18 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 6,
+  "modules-left": ["custom/brand", "sway/workspaces"],
+  "modules-center": ["sway/window"],
+  "modules-right": ["cpu", "memory", "network", "pulseaudio", "battery", "clock"],
+  "custom/brand": {"format": "    ", "tooltip": false},
+  "sway/workspaces": {"disable-scroll": true, "all-outputs": true, "format": "{name}"},
+  "sway/window": {"max-length": 70, "rewrite": {"(.*)": " $1 "}},
+  "cpu": {"format": "CPU {usage}%", "interval": 5},
+  "memory": {"format": "RAM {}%", "interval": 5},
+  "network": {"format-wifi": " {signalStrength}%", "format-ethernet": "󰈀", "format-disconnected": "󰖪", "tooltip-format": "{ifname}: {ipaddr}"},
+  "pulseaudio": {"format": "{icon} {volume}%", "format-muted": "󰝟 muted", "format-icons": ["󰕿", "󰖀", "󰕾"]},
+  "battery": {"format": "{icon} {capacity}%", "format-icons": ["󰂎", "󰁺", "󰁿", "󰂀", "󰁹"]},
+  "clock": {"format": "{:%a %d %b  %H:%M}", "tooltip-format": "<tt>{calendar}</tt>"}
+}

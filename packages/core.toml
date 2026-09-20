@@ -1,0 +1,69 @@
+[[packages]]
+name = "swayfx"
+label = "SwayFX compositor"
+category = "Core SwayFX"
+
+[[packages]]
+name = "waybar"
+label = "Waybar status bar"
+category = "Core SwayFX"
+
+[[packages]]
+name = "wofi"
+label = "Wofi launcher"
+category = "Core SwayFX"
+
+[[packages]]
+name = "mako"
+label = "Mako notifications"
+category = "Core SwayFX"
+
+[[packages]]
+name = "swayidle"
+label = "Sway idle manager"
+category = "Core SwayFX"
+
+[[packages]]
+name = "swaylock"
+label = "Sway screen locker"
+category = "Core SwayFX"
+
+[[packages]]
+name = "brightnessctl"
+label = "Brightness control"
+category = "Desktop utilities"
+
+[[packages]]
+name = "playerctl"
+label = "Media control"
+category = "Desktop utilities"
+
+[[packages]]
+name = "pavucontrol"
+label = "PulseAudio volume control"
+category = "Desktop utilities"
+
+[[packages]]
+name = "NetworkManager-tui"
+label = "NetworkManager utilities"
+category = "Desktop utilities"
+
+[[packages]]
+name = "wl-clipboard"
+label = "Wayland clipboard"
+category = "Desktop utilities"
+
+[[packages]]
+name = "grim"
+label = "Screenshot capture"
+category = "Desktop utilities"
+
+[[packages]]
+name = "slurp"
+label = "Area selection"
+category = "Desktop utilities"
+
+[[packages]]
+name = "jq"
+label = "JSON utility"
+category = "Desktop utilities"

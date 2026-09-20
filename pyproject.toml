@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fedora-swayfx"
+version = "0.1.0"
+description = "A safe, Fedora-native SwayFX desktop setup tool"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.scripts]
+fedora-swayfx = "installer.main:main"
+
+[tool.setuptools.packages.find]
+include = ["installer*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

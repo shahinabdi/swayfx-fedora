@@ -1,0 +1,91 @@
+# Solid Dark / Subtle FX. Adjust this block to personalize the session.
+set $mod Mod4
+set $terminal alacritty
+set $launcher wofi --show drun --allow-images
+set $config ~/.config/swayfx/config
+set $accent #69a7ff
+set $background #0b111a
+set $focused $accent
+set $unfocused #273344
+set $border_width 2
+set $gaps 6
+set $corner_radius 7
+set $animation_duration 180
+
+font pango:JetBrains Mono 10
+floating_modifier $mod normal
+default_border pixel $border_width
+default_floating_border pixel $border_width
+gaps inner $gaps
+gaps outer $gaps
+smart_gaps on
+smart_borders on
+
+client.focused $focused $background $focused $focused $focused
+client.unfocused $unfocused $background $unfocused $unfocused $unfocused
+client.urgent #e6a567 $background #e6a567 #e6a567
+
+corner_radius $corner_radius
+shadow enable
+shadow_blur_radius 12
+shadow_color #00000066
+# Opt in to blur when desired; opaque surfaces are the default.
+blur disable
+blur_radius 3
+blur_passes 2
+default_dim_inactive 0.06
+
+exec_always --no-startup-id waybar
+exec --no-startup-id mako
+exec --no-startup-id swayidle -w timeout 300 'swaylock -f -c 0b111a' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep 'swaylock -f -c 0b111a'
+
+bindsym $mod+Return exec $terminal
+bindsym $mod+d exec $launcher
+bindsym $mod+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec "swaymsg exit"
+bindsym $mod+f fullscreen toggle
+bindsym $mod+space floating toggle
+bindsym $mod+l exec ~/.config/swayfx/scripts/lock.sh
+bindsym Print exec ~/.config/swayfx/scripts/screenshot.sh full
+bindsym Shift+Print exec ~/.config/swayfx/scripts/screenshot.sh area
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+
+bindsym $mod+Shift+q exec ~/.config/swayfx/scripts/power-menu.sh
+include /etc/sway/config.d/*

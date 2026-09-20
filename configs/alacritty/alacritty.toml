@@ -1,0 +1,20 @@
+[window]
+padding = { x = 12, y = 10 }
+decorations = "full"
+opacity = 1.0
+
+[font]
+normal = { family = "JetBrains Mono", style = "Regular" }
+size = 11.0
+
+[colors.primary]
+background = "#0b111a"
+foreground = "#d6deea"
+
+[colors.cursor]
+cursor = "#69a7ff"
+text = "#0b111a"
+
+[colors.selection]
+background = "#273344"
+text = "#d6deea"

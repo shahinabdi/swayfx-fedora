@@ -1,0 +1,47 @@
+[[packages]]
+name = "alacritty"
+label = "Alacritty terminal"
+category = "Terminal"
+default = true
+
+[[packages]]
+name = "foot"
+label = "Foot terminal"
+category = "Terminal"
+default = false
+
+[[packages]]
+name = "kitty"
+label = "Kitty terminal"
+category = "Terminal"
+default = false
+
+[[packages]]
+name = "firefox"
+label = "Firefox browser"
+category = "Applications"
+default = false
+
+[[packages]]
+name = "dolphin"
+label = "Dolphin file manager"
+category = "Applications"
+default = false
+
+[[packages]]
+name = "mpv"
+label = "MPV media player"
+category = "Applications"
+default = false
+
+[[packages]]
+name = "imv"
+label = "IMV image viewer"
+category = "Applications"
+default = false
+
+[[packages]]
+name = "flatpak"
+label = "Flatpak support"
+category = "Applications"
+default = false
