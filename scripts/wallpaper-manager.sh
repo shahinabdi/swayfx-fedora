@@ -2,6 +2,7 @@
 set -euo pipefail
 
 wallpaper_dir="$HOME/.config/swayfx/wallpapers"
+selected_file="$HOME/.config/swayfx/wallpaper.selected"
 
 mapfile -t images < <(
   find "$wallpaper_dir" -maxdepth 1 -type f \( \
@@ -19,6 +20,10 @@ selected=$(printf '%s\n' "${images[@]}" | wofi --dmenu --prompt "Wallpaper" --in
 
 image="$wallpaper_dir/$selected"
 [[ -f "$image" ]] || exit 1
+
+temporary=$(mktemp "${selected_file}.XXXXXX")
+printf '%s\n' "$selected" >"$temporary"
+mv "$temporary" "$selected_file"
 
 pkill -x swaybg >/dev/null 2>&1 || true
 exec swaybg -i "$image" -m fill

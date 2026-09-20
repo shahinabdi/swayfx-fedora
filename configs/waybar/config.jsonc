@@ -12,7 +12,7 @@
   "cpu": {"format": "CPU {usage}%", "interval": 5},
   "memory": {"format": "RAM {}%", "interval": 5},
   "network": {"format-wifi": " {signalStrength}%", "format-ethernet": "󰈀", "format-disconnected": "󰖪", "tooltip-format": "{ifname}: {ipaddr}"},
-  "pulseaudio": {"format": "{icon} {volume}%", "format-muted": "󰝟 muted", "format-icons": ["󰕿", "󰖀", "󰕾"]},
+  "pulseaudio": {"format": "{icon} {volume}%", "format-muted": "󰝟 muted", "format-icons": ["󰕿", "󰖀", "󰕾"], "on-click": "pavucontrol"},
   "battery": {"format": "{icon} {capacity}%", "format-icons": ["󰂎", "󰁺", "󰁿", "󰂀", "󰁹"]},
   "clock": {"format": "{:%a %d %b  %H:%M}", "tooltip-format": "<tt>{calendar}</tt>"}
 }
